@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.python-version
+
+# uv
+uv.lock.bak
+
+# Segredos
+.env
+*.env.local
+
+# Modelos baixados localmente (pesados, não versionar)
+runs/
+models/
+*.safetensors
+*.onnx
+*.onnx_data
+
+# SO / editor
+.DS_Store
+.vscode/
+.idea/

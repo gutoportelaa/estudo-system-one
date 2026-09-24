@@ -1,0 +1,25 @@
+[project]
+name = "estudo-system-one"
+version = "0.1.0"
+description = "Estudo prático do modelo Jev (TypeSafe AI) e do paradigma System One"
+requires-python = ">=3.12"
+dependencies = [
+    "typesafe-sdk>=0.7.1",
+    "pydantic>=2.9",
+    "python-dotenv>=1.0",
+]
+
+[dependency-groups]
+# usado no tópico 07: agente LangGraph com decisão via Pydantic AI (TypeSafeModel)
+langgraph = [
+    "langgraph>=0.2",
+    "pydantic-ai-slim[typesafe]>=0.1",
+    "langchain-google-genai>=2.0",  # nó de fallback "System Two", mesmo padrão do estudo-chatbot
+]
+# usado no tópico 02: sobe um servidor Kev local (contrato /v1/systemone idêntico ao Jev)
+kev-local = [
+    "kev[serve]>=0.1.0",
+]
+
+[tool.uv]
+package = false
