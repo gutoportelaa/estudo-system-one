@@ -1,19 +1,43 @@
-# 04 — API real do Jev (🚧 em construção)
+# 04 — API real do Jev
 
-Objetivo: trocar o `base_url` local do Kev (tópico 02) pela API hospedada do Jev
-(`https://typesafe.ai`) e comparar resultado real, custo e latência lado a lado — mesmo código,
-dois modelos.
+## Rodando sem chave (padrão)
 
-Pré-requisito: conta na TypeSafe AI e `TYPESAFE_API_KEY` (custo ~US$0,042/milhão de tokens de
-entrada; a decidir junto se/quando vale gerar a chave). Enquanto isso não acontece, este tópico
-fica como placeholder — o script de `02-primitivas-com-kev/` já foi escrito para funcionar sem
-alteração de código contra o Jev real, bastando:
-
-```python
-client = TypeSafeClient(api_key=os.environ["TYPESAFE_API_KEY"])  # sem base_url = usa o Jev hospedado
+```bash
+uv run python 04-jev-api/comparar_kev_vs_jev.py
 ```
 
-Planejado quando tivermos a chave:
-- repetir o experimento de `02-primitivas-com-kev/testar_primitivas.py` contra o Jev real;
-- comparar `confidence`/`probabilities` do Jev com o Kev-0.8B no mesmo ticket;
-- registrar custo real da chamada.
+Sem `TYPESAFE_API_KEY`, o script roda normalmente contra o Kev local (tópico 02) e avisa que
+pulou o Jev — não é preciso ter conta na TypeSafe para usar este repositório.
+
+## Rodando com a API paga
+
+```bash
+cp 04-jev-api/.env.example 04-jev-api/.env
+# preencher TYPESAFE_API_KEY=...
+uv run python 04-jev-api/comparar_kev_vs_jev.py
+```
+
+O script então roda o **mesmo** `state` + `questions` contra o Kev local *e* contra o Jev
+hospedado (`https://api.typesafe.ai`, resolvido automaticamente pelo `typesafe-sdk` quando não
+se passa `base_url`), e imprime os dois lado a lado.
+
+## O que comparar
+
+- **`confidence`/`probabilities` do Choice**: o Jev, sendo o modelo frontier fechado, deveria
+  produzir uma distribuição mais "decidida" (menos achatada) no mesmo ticket ambíguo — é
+  justamente a vantagem de calibração/acurácia que os relatórios de pesquisa atribuem ao
+  Jev sobre o Kev (~0.857 vs. ~0.848 de accuracy em "new sources", segundo o
+  [README do Kev](https://github.com/jaredpalmer/kev#models) — a diferença é pequena para
+  Kev-27B, mas maior para Kev-0.8B/4B).
+- **Latência**: ambos devem ficar na faixa de dezenas a algumas centenas de ms — o Jev não é
+  necessariamente mais rápido que um Kev rodando localmente (a chamada ao Jev inclui rede);
+  a vantagem de latência do paradigma System One é *versus LLMs*, não *versus Kev*.
+- **Custo**: o Kev é grátis (roda na sua máquina); o Jev cobra ~US$0,042/milhão de tokens de
+  entrada. Para prototipagem, o Kev é estritamente melhor em custo — o Jev entra quando a
+  acurácia/calibração adicional compensa o preço.
+
+## Nota
+
+Este tópico foi deixado sem chave configurada de propósito — decidir gerar uma conta paga na
+TypeSafe é uma escolha (com custo real, ainda que pequeno) que cabe a quem for rodar o repo, não
+algo que o repositório deveria assumir por padrão.

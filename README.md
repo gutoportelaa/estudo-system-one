@@ -31,11 +31,11 @@ quando aplicável, código para testar o conceito na prática.
 | [`docs/`](docs/) | Glossário e mapa de referências (os PDFs de pesquisa que originaram este repo) | ✅ |
 | [`01-arquitetura-system-one/`](01-arquitetura-system-one/) | Como o Jev funciona por dentro: single forward pass, block-causal attention, primitivas tipadas | ✅ |
 | [`02-primitivas-com-kev/`](02-primitivas-com-kev/) | Prática: rodar `Choice`/`Score`/`Noul` de verdade contra o **Kev** (réplica open-source do Jev) | ✅ |
-| [`03-calibracao-rlcd/`](03-calibracao-rlcd/) | RLCD vs. RLHF/DPO, Brier Score, ECE — e medir a calibração do Kev empiricamente | 🚧 |
-| [`04-jev-api/`](04-jev-api/) | Testar a API paga real do Jev via `typesafe-sdk` | 🚧 |
-| [`05-comparativo-system-one-vs-llm/`](05-comparativo-system-one-vs-llm/) | Jev/Kev vs. LLM com JSON mode/structured output — latência, custo, taxa de erro | 🚧 |
-| [`06-rad-retrieval-augmented-decision/`](06-rad-retrieval-augmented-decision/) | RAD (Retrieval-Augmented Decision) — o "RAG" do mundo System One, ligando com o [`RAG-estudo`](https://github.com/gutoportelaa/RAG-estudo) | 🚧 |
-| [`07-app-langgraph-pydantic/`](07-app-langgraph-pydantic/) | **Capstone**: agente de triagem de tickets em LangGraph, com Pydantic definindo as decisões tipadas do Kev/Jev e roteando o grafo por elas. Cada integração nova é explicada junto do conceito de LangGraph que ela usa | 🚧 |
+| [`03-calibracao-rlcd/`](03-calibracao-rlcd/) | RLCD vs. RLHF/DPO, Brier Score, ECE — e medir a calibração do Kev empiricamente | ✅ |
+| [`04-jev-api/`](04-jev-api/) | Testar a API paga real do Jev via `typesafe-sdk`, lado a lado com o Kev | ✅ |
+| [`05-comparativo-system-one-vs-llm/`](05-comparativo-system-one-vs-llm/) | Jev/Kev vs. LLM com JSON mode/structured output — latência, custo, taxa de erro | ✅ |
+| [`06-rad-retrieval-augmented-decision/`](06-rad-retrieval-augmented-decision/) | RAD (Retrieval-Augmented Decision) — o "RAG" do mundo System One, ligando com o [`RAG-estudo`](https://github.com/gutoportelaa/RAG-estudo) | ✅ |
+| [`07-app-langgraph-pydantic/`](07-app-langgraph-pydantic/) | **Capstone**: agente de triagem de tickets em LangGraph, com Pydantic definindo as decisões tipadas do Kev/Jev e roteando o grafo por elas. Cada integração nova é explicada junto do conceito de LangGraph que ela usa | ✅ |
 
 ✅ = conteúdo pronto · 🚧 = em construção
 
@@ -59,10 +59,11 @@ Pydantic↔TypeSafe) ganha uma seção curta de "fundamentos" no README da pasta
 | Modelo local de estudo | [Kev](https://github.com/jaredpalmer/kev) (LoRA sobre Qwen, código aberto, réplica do Jev) |
 
 > **Nota sobre hardware:** esta máquina de desenvolvimento tem ~2.8GB de RAM e nenhuma GPU.
-> Isso é insuficiente para rodar o Kev-4B/9B (os modelos mais próximos do Jev em acurácia)
-> localmente. As instruções em `02-primitivas-com-kev/` cobrem tanto a opção local (Kev-0.5B,
-> o menor, se você tiver mais RAM disponível) quanto a opção remota (Hugging Face Space,
-> zero instalação) — use a que fizer sentido para sua máquina.
+> Isso é insuficiente para rodar o Kev-4B/9B/27B (os modelos mais próximos do Jev em acurácia)
+> localmente — todos os scripts deste repo usam o **Kev-0.8B** (o menor da família atual,
+> `jaredpalmer/kev-0.8b`), servido localmente via `python -m kev.serve`. Se sua máquina tiver
+> mais RAM/GPU, é só trocar o `--run jaredpalmer/kev-0.8b` por `kev-4b`/`kev-9b`/`kev-27b` nos
+> comandos — nenhum script muda.
 
 ## Referências originais
 

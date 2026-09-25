@@ -20,6 +20,11 @@ langgraph = [
 kev-local = [
     "kev[serve]>=0.1.0",
 ]
+# usado nos tópicos 05 (comparativo) e 06 (RAD): LLM + embeddings Gemini, mesma stack do
+# estudo-chatbot e do RAG-estudo
+llm-comparativo = [
+    "langchain-google-genai>=2.0",
+]
 
 [tool.uv]
 package = false
